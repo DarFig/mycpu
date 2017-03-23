@@ -19,9 +19,14 @@ int32_t get_mem_max(){
 int32_t get_contenido_mem(int32_t direccion){
   return mem[direccion];
 }
+void set_contenido_mem(int32_t direccion, int8_t contenido){
+  mem[direccion]=contenido;
+}
 void print_contenido_mem(){
+  int32_t aux = 0x00000000;
   for(int i = 0; i < mem_max; i++){
-    printf("%#x : %d %d %d %d \n", i, mem[i], mem[i+1], mem[i+2], mem[i+3]);
+    aux = 0xFF000000*mem[i]+ 0xFF0000*mem[i+1] + 0xFF00*mem[i+2] + mem[i+3];
+    printf("%#x : %d %d %d %d : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
     i+=3;
   }
 }
