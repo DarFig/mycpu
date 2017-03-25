@@ -8,8 +8,8 @@ static uint32_t banco [max_reg];
 /*
 Las dreciones tienen que esta dentro del dominio de max_reg
 */
-void w_port(uint8_t num_reg, uint32_t dato){
-  banco[num_reg] = dato;
+void w_port(uint8_t num_reg, uint32_t dato, int regWr){
+  if(regWr == 1) banco[num_reg] = dato;
 }
 uint32_t r_port(uint8_t num_reg){
   return banco[num_reg];

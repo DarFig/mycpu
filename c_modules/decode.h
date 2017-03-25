@@ -60,11 +60,17 @@ void etapa_decode_run(){
     D_E.d_rd = d_rd;
     D_E.inmExt = inmExt;
 
-  //salto
-  if(salto == 1 && rs1 == rs2){
-    set_dir_salto(pc4 + inmExt);
-    set_pcSrc(1);
-  }
+    //salto
+    if(salto == 1 && rs1 == rs2){
+      set_dir_salto(pc4 + inmExt);
+      set_pcSrc(1);
+    }
+  }else{
+    //pasar nop a D_E
+    D_E.rs1 = 0;
+    D_E.rs2 = 0;
+    D_E.d_rd = 0;
+    D_E.inmExt = 0;
   }
 }
 
