@@ -48,12 +48,11 @@ uint32_t get_instruccion_fech(){
 void etapa_fetch_run(){
   //
   instruccion = get_contenido_mem(pc);
-
   //cargar en banco
-  if(F_D.carga == 1){
+  if(F_D_F.carga == 1){
     pc = multiplex_2(pc+4, dir_salto, pcSrc);
-    F_D.instruccion = instruccion;
-    F_D.pc4 = pc;
+    F_D_F.instruccion = instruccion;
+    F_D_F.pc4 = pc;
   }
   if(pc > PCFIN) pc = PCINI;
 }
