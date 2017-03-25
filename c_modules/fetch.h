@@ -13,7 +13,7 @@ static uint32_t pc = 0x0000;
 //siguiente instruccion
 static uint32_t instruccion = 0x0000;
 
-static int salto = 0;
+//static int salto = 0;
 
 //dir de salto
 static uint32_t dir_salto = 0x0000;
@@ -28,10 +28,14 @@ uint32_t get_pc(){
 void set_pc(int32_t new_pc){
   pc = new_pc;
 }
-
-void set_salto(int _salto){
-  salto = _salto;
+void set_pcSrc(int32_t new_pcSrc){
+  pcSrc = new_pcSrc;
 }
+
+
+/*void set_salto(int _salto){
+  salto = _salto;
+}*/
 
 void set_dir_salto(int32_t _dir_salto){
   dir_salto = _dir_salto;
@@ -49,6 +53,7 @@ void etapa_fetch_run(){
   if(F_D.carga == 1){
     pc = multiplex_2(pc+4, dir_salto, pcSrc);
     F_D.instruccion = instruccion;
+    F_D.pc4 = pc;
   }
   if(pc > PCFIN) pc = PCINI;
 }
