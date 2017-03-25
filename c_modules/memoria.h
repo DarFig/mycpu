@@ -1,6 +1,8 @@
 #ifndef MEMORIA_H
 #define MEMORIA_H
 
+#define MEM_MAX 0xFFFF //máxima dir de memoria, inicializada por defecto
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -12,17 +14,17 @@ para el dato: 0x12f18404 el orden de almacenamiento en memoria sería
 04 84 f1 12 -> estando el 04 en la posición inferior en memoria
 */
 
-static const uint32_t mem_max = 0xFFFF; //máxima dir de memoria, inicializada por defecto
-volatile uint8_t mem [mem_max];
+
+volatile uint8_t mem [MEM_MAX];
 
 void mem_init(){
-  for(int i = 0; i < mem_max; i++){
+  for(int i = 0; i < MEM_MAX; i++){
     mem[i]= 0x0000;
   }
 }
 
-uint32_t get_mem_max(){
-  return mem_max;
+uint32_t get_MEM_MAX(){
+  return MEM_MAX;
 }
 
 static uint32_t get_mem_big_endian(uint8_t B3, uint8_t B2, uint8_t B1, uint8_t B0){
@@ -56,16 +58,16 @@ void set_contenido_mem(uint32_t direccion, uint32_t data){
 
 
 void print_contenido_mem(){
-  uint32_t unsigned aux = 0x00000000;
-  for(int i = 0; i < mem_max; i+=4){
+  uint32_t aux = 0x00000000;
+  for(int i = 0; i < MEM_MAX; i+=4){
     aux = get_mem_big_endian(mem[i+3], mem[i+2], mem[i+1], mem[i]);
     //printf("%#x : %#x %#x %#x %#x : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
     printf("%#x : %#x\n", i,aux);
   }
 }
 void print_contenido_mem_detalle(){
-  uint32_t unsigned aux = 0x00000000;
-  for(int i = 0; i < mem_max; i+=4){
+  uint32_t aux = 0x00000000;
+  for(int i = 0; i < MEM_MAX; i+=4){
     aux = get_mem_big_endian(mem[i+3], mem[i+2], mem[i+1], mem[i]);
     printf("%#x : %#x %#x %#x %#x : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
   }
