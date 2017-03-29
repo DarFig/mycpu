@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "unidad_control.h"
-
+#include "utils.h"
 struct banco_F_D{
   int carga;
   uint32_t instruccion;

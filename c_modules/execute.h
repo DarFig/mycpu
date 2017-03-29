@@ -3,10 +3,13 @@
 
 #include <stdint.h>
 #include "bancos.h"
-
+#include "utils.h"
 
 static uint32_t rs1 = 0x00000000;
 static uint32_t rs2 = 0x00000000;
+static uint32_t rA = 0x00000000;
+static uint32_t rB = 0x00000000;
+
 static uint32_t aluOut = 0x00000000;
 static uint8_t d_rd = 0x00;
 static uint32_t inmExt = 0x00000000;
@@ -43,7 +46,7 @@ void etapa_execute_run(){
   inmExt = D_E_E.inmExt;
 
   //pasar a alu
-
+  aluOut = alu(D_E_E.p_op., rA, rB);
 
 }
 

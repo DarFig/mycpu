@@ -2,6 +2,17 @@
 #define UTILS_H
 #include <stdint.h>
 
+
+struct operacion {
+  uint8_t aluop;//solo usa 3bits
+  int salto;
+  int regWr;
+  int reDst;
+  int memW;
+  int memR;//memToR = memR
+  int aluSrc;
+};
+
 uint32_t multiplex_2(uint32_t in0, uint32_t in1, int selec){
   if(selec == 0)
     return in0;

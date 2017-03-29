@@ -2,16 +2,8 @@
 #define UNIDAD_CONTROL_H
 
 #include <stdint.h>
+#include "utils.h"
 
-struct operacion {
-  uint8_t aluop;//solo usa 3bits
-  int salto;
-  int regWr;
-  int reDst;
-  int memW;
-  int memR;//memToR = memR
-  int aluSrc;
-};
 struct operacion Nop = {0x2,0,0,1,0,0,0};//000000
 struct operacion Mov = {0x2,0,1,0,0,0,1};//000001
 struct operacion Ld  = {0x2,0,1,0,0,1,1};//000010
