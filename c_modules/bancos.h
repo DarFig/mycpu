@@ -19,10 +19,21 @@ struct banco_D_E{
   //señales de control
   struct operacion p_op;
 };
+struct banco_E_M{
+  uint32_t aluOut;
+  uint8_t d_rd;
+  //señales de control
+  struct operacion p_op;
+};
 
 struct banco_F_D F_D_F = {1, 0x0000};
 struct banco_F_D F_D_D = {1, 0x0000};
-struct banco_D_E D_E_D = {1,0x0,0x00,0x00,0x00000000,Nop};
-struct banco_D_E D_E_E = {1,0x0,0x00,0x00,0x00000000,Nop};
+
+struct banco_D_E D_E_D = {1,0x00,0x00,0x00,0x00000000,Nop};
+struct banco_D_E D_E_E = {1,0x00,0x00,0x00,0x00000000,Nop};
+
+struct banco_E_M E_M_E = {0x00000000,0x00,Nop};
+struct banco_E_M E_M_M = {0x00000000,0x00,Nop};
+
 
 #endif

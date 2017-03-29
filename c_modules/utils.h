@@ -10,7 +10,7 @@ struct operacion {
   int reDst;
   int memW;
   int memR;//memToR = memR
-  int aluSrc;
+  int aluSrc;//por ahora solo 0 o 1
 };
 
 uint32_t multiplex_2(uint32_t in0, uint32_t in1, int selec){

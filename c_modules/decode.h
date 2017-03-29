@@ -5,6 +5,7 @@
 #include "bancos.h"
 #include "BancoRegistros.h"
 #include "unidad_control.h"
+#include "utils.h"
 
 extern void set_pcSrc(int32_t new_pcSrc);
 extern void set_dir_salto(int32_t _dir_salto);

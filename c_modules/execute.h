@@ -46,7 +46,11 @@ void etapa_execute_run(){
   inmExt = D_E_E.inmExt;
 
   //pasar a alu
-  aluOut = alu(D_E_E.p_op., rA, rB);
+  rA = rs1;//sin adelantos
+  rB = multiplex_2(rs2,inmExt,D_E_E.p_op.aluSrc);
+  aluOut = alu(D_E_E.p_op.aluop, rA, rB);
+
+  //escritura en E_M
 
 }
 
