@@ -7,5 +7,5 @@
     "start": "electron main.js" 
   },
   "author": "Dariel",
-  "license": ""
+  "license": "GPLv3"
 }

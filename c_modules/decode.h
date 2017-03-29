@@ -17,8 +17,8 @@ static int32_t pc4 = 0x00000000;
 static uint16_t inmed = 0x0000;
 static uint32_t inmExt = 0x00000000;
 //datos
-static uint8_t rs1 = 0x00;
-static uint8_t rs2 = 0x00;
+static uint32_t rs1 = 0x00000000;
+static uint32_t rs2 = 0x00000000;
 //código de operacion
 static uint8_t opCode = 0x00;
 
