@@ -46,7 +46,7 @@ struct banco_D_E D_E_E = {1,0x00,0x00,0x00,0x00000000,Nop};
 struct banco_E_M E_M_E = {0x00000000,0x00,0x00000000,Nop};
 struct banco_E_M E_M_M = {0x00000000,0x00,0x00000000,Nop};
 
-//struct banco_M_W M_W_M = {0x00000000,0x00,0x00000000,Nop};
+struct banco_M_W M_W_M = {0x00000000,0x00,0x00000000,Nop};
 struct banco_M_W M_W_W = {0x00000000,0x00,0x00000000,Nop};
 
 #endif
