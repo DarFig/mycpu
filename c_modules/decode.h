@@ -6,6 +6,7 @@
 #include "BancoRegistros.h"
 #include "unidad_control.h"
 #include "utils.h"
+#include "write_bank.h"
 
 extern void set_pcSrc(int32_t new_pcSrc);
 extern void set_dir_salto(int32_t _dir_salto);
@@ -43,6 +44,8 @@ void etapa_decode_run(){
   inmExt = inmed;
 
   //escritura en BR
+  etapa_writeBank_run();//esto equivale a escritura en medio cilco
+                        //y lectura en la otra mitad
 
   //leer operandos
   rs1 = r_port(d_rs1);
