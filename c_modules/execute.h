@@ -51,7 +51,9 @@ void etapa_execute_run(){
   aluOut = alu(D_E_E.p_op.aluop, rA, rB);
 
   //escritura en E_M
-
+  E_M_E.aluOut = aluOut;
+  E_M_M.d_rd = d_rd;
+  E_M_E.p_op = D_E_E.p_op;
 }
 
 #endif
