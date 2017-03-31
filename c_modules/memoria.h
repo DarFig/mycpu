@@ -79,6 +79,16 @@ void print_contenido_mem_detalle(uint32_t dir_start, uint32_t dir_end){
     printf("%#x : %#x %#x %#x %#x : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
   }
 }
+void print_contenido_mem_detalle(uint32_t dir_start, uint32_t dir_end, uint32_t pc){
+  uint32_t aux = 0x00000000;
+  for(int i = dir_start; i < dir_end; i+=4){
+    aux = get_mem_big_endian(mem[i+3], mem[i+2], mem[i+1], mem[i]);
+    if(pc!= i)
+      printf("      %#x : %#x %#x %#x %#x : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
+    else
+      printf("PC -> %#x : %#x %#x %#x %#x : %#x\n", i, mem[i], mem[i+1], mem[i+2], mem[i+3],aux);
+  }
+}
 void mode(){
   printf("big-endian");
 }

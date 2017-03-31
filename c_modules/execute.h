@@ -20,6 +20,7 @@ static int flagX = 0;//1 if rs1 < rs2
 static int flagZ = 0;//1 if rs1 = rs2
 
 uint32_t alu(uint8_t aluOp, uint32_t rs1, uint32_t rs2){
+  
   if(aluOp == 0x000){ //and
     return rs1 & rs2;
   }else if(aluOp == 0x001){//or
@@ -35,7 +36,7 @@ uint32_t alu(uint8_t aluOp, uint32_t rs1, uint32_t rs2){
     if(rs1 == rs2) flagZ = 1;
     return rs1;
   }else{//+ por defecto 0x010
-    return rs1 + rs2;
+    return (rs1 + rs2);
   }
 
 }

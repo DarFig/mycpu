@@ -39,10 +39,10 @@ void etapa_decode_run(){
   inst = F_D_D.instruccion;
   pc4 = F_D_D.pc4;
   //decodificar
-  opCode = (inst >> 24) & 0xFC;
-  d_rs1 = (inst >> 20) & 0x3E;
+  opCode = (inst >> 26);
+  d_rs1 = (inst >> 21)&0x1F;
   d_rs2 = (inst >> 16) & 0x1F;
-  d_rd_d = (inst >> 8) & 0xF8;
+  d_rd_d = (inst >> 11) & 0x1F;
   inmed = inst & 0xFFFF;
   inmExt_d = inmed;
 
@@ -53,7 +53,6 @@ void etapa_decode_run(){
   //leer operandos
   rs1_d = r_port(d_rs1);
   rs2_d = r_port(d_rs2);
-
   //unidad de control
   p_op = run_control(opCode);
   salto = p_op.salto;
