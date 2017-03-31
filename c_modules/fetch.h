@@ -4,9 +4,11 @@
 #include "memoria.h"
 #include "bancos.h"
 #include "utils.h"
-
+#include "decode.h"
 #define PCINI 0x0000
 #define PCFIN 0xFFFF
+
+
 
 //trabajemos con direccionamiento 32bits
 static uint32_t pc = 0x0000;
@@ -55,6 +57,7 @@ void etapa_fetch_run(){
     F_D_F.pc4 = pc;
   }
   if(pc > PCFIN) pc = PCINI;
+  etapa_decode_run();
 }
 
 

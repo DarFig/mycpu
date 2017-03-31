@@ -4,14 +4,16 @@
 #include <stdint.h>
 #include "bancos.h"
 #include "utils.h"
+#include "mem.h"
+
 
 static uint32_t rs1 = 0x00000000;
 static uint32_t rs2 = 0x00000000;
 static uint32_t rA = 0x00000000;
 static uint32_t rB = 0x00000000;
 
-static uint32_t aluOut = 0x00000000;
-static uint8_t d_rd = 0x00;
+static uint32_t aluOut_e = 0x00000000;
+static uint8_t d_rd_e = 0x00;
 static uint32_t inmExt = 0x00000000;
 
 static int flagX = 0;//1 if rs1 < rs2
@@ -42,19 +44,21 @@ void etapa_execute_run(){
   //leer de banco D_E
   rs1 = D_E_E.rs1;
   rs2 = D_E_E.rs2;
-  d_rd = D_E_E.d_rd;
+  d_rd_e = D_E_E.d_rd;
   inmExt = D_E_E.inmExt;
 
   //pasar a alu
   rA = rs1;//sin adelantos
   rB = multiplex_2(rs2,inmExt,D_E_E.p_op.aluSrc);
-  aluOut = alu(D_E_E.p_op.aluop, rA, rB);
+  aluOut_e = alu(D_E_E.p_op.aluop, rA, rB);
 
   //escritura en E_M
-  E_M_E.aluOut = aluOut;
-  E_M_E.d_rd = d_rd;
+  E_M_E.aluOut = aluOut_e;
+  E_M_E.d_rd = d_rd_e;
   E_M_E.dato = rB;
   E_M_E.p_op = D_E_E.p_op;
+
+  etapa_mem_run();
 }
 
 #endif
