@@ -23,22 +23,22 @@ struct operacion Equ = {0x7,0,0,1,0,0,0};//001111 operador =
 
 struct operacion run_control(uint8_t opCode){
   switch (opCode) {
-    case 0x000000 : return Nop;
-    case 0x000001 : return Mov;
-    case 0x000010 : return Ld;
-    case 0x000011 : return St;
-    case 0x000100 : return Beq;
-    case 0x000101 : return Nop;
-    case 0x000110 : return Nop;
-    case 0x000111 : return Nop;
-    case 0x001000 : return And;
-    case 0x001001 : return Or;
-    case 0x001010 : return Sum;
-    case 0x001011 : return Res;
-    case 0x001100 : return Rs1;
-    case 0x001101 : return Nop;
-    case 0x001110 : return Men;
-    case 0x001111 : return Equ;
+    case 0x00 : return Nop;
+    case 0x01 : return Mov;
+    case 0x02 : return Ld;
+    case 0x03 : return St;
+    case 0x04 : return Beq;
+    case 0x05 : return Nop;
+    case 0x06 : return Nop;
+    case 0x07 : return Nop;
+    case 0x08 : return And;
+    case 0x09 : return Or;
+    case 0x0A : return Sum;
+    case 0x0B : return Res;
+    case 0x0C : return Rs1;
+    case 0x0D : return Nop;
+    case 0x0E : return Men;
+    case 0x0F : return Equ;
     default : return Nop;
   }
 
