@@ -20,7 +20,7 @@ static int flagX = 0;//1 if rs1 < rs2
 static int flagZ = 0;//1 if rs1 = rs2
 
 uint32_t alu(uint8_t aluOp, uint32_t rs1, uint32_t rs2){
-  
+
   if(aluOp == 0x000){ //and
     return rs1 & rs2;
   }else if(aluOp == 0x001){//or
@@ -55,7 +55,8 @@ void etapa_execute_run(){
 
   //escritura en E_M
   E_M_E.aluOut = aluOut_e;
-  E_M_E.d_rd = d_rd_e;
+  E_M_E.d_rd = multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst);
+
   E_M_E.dato = rB;
   E_M_E.p_op = D_E_E.p_op;
 

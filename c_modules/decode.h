@@ -64,6 +64,7 @@ void etapa_decode_run(){
     D_E_D.rs1 = rs1_d;
     D_E_D.rs2 = rs2_d;
     D_E_D.d_rd = d_rd_d;
+    D_E_D.d_rs2 = d_rs2;
     D_E_D.inmExt = inmExt_d;
     D_E_D.p_op = p_op;
     //dar carga al fetch
@@ -80,6 +81,7 @@ void etapa_decode_run(){
     D_E_D.rs1 = 0;
     D_E_D.rs2 = 0;
     D_E_D.d_rd = 0;
+    D_E_D.d_rs2 = 0;
     D_E_D.inmExt = 0;
     D_E_D.p_op = Nop;
   }
