@@ -47,7 +47,7 @@ void etapa_decode_run(){
   inmExt_d = inmed;
 
   //escritura en BR
-  etapa_writeBank_run();//esto equivale a escritura en medio cilco
+  etapa_writeBank_run();//esto equivale a escritura en medio ciclo
                         //y lectura en la otra mitad
 
   //leer operandos

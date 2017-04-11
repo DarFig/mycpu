@@ -50,14 +50,16 @@ void etapa_execute_run(){
 
   //pasar a alu
   rA = rs1;//sin adelantos
-  rB = multiplex_2(rs2,inmExt,D_E_E.p_op.aluSrc);
+  rB = multiplex_2( rs2, inmExt ,D_E_E.p_op.aluSrc);
   aluOut_e = alu(D_E_E.p_op.aluop, rA, rB);
 
   //escritura en E_M
   E_M_E.aluOut = aluOut_e;
   E_M_E.d_rd = multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst);
 
-  E_M_E.dato = rB;
+
+  E_M_E.dato = rs2;
+  printf("%#x, \n", rs2);
   E_M_E.p_op = D_E_E.p_op;
 
   etapa_mem_run();

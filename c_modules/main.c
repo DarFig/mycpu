@@ -9,18 +9,17 @@ static void load_rom(){
   /*
   mov r2, 2
   mov r5, 5
+  nop
+  nop
   sw r5, r0+inmd(C0)
-  nop
-  nop
   nop
   add r6,r2,r5
   */
   set_contenido_mem(0x00, 0x04020002);
   set_contenido_mem(0x04, 0x04050005);
-  set_contenido_mem(0x08, 0x0c0500C0);
+  set_contenido_mem(0x08, 0x0);
   set_contenido_mem(0x0c, 0x0);
-
-  set_contenido_mem(0x10, 0x0);
+  set_contenido_mem(0x10, 0x0c0500C0);
   set_contenido_mem(0x14, 0x0);
   set_contenido_mem(0x18, 0x28453000);
   set_contenido_mem(0x1c, 0x0);
