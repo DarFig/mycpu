@@ -29,8 +29,8 @@
   - beq 000100  if rs1 == rs2 go to ext(inmd) memory jump (delayed one cycle)
   - and 001000  rd <- rs1 & rs2
   - or  001001  rd <- rs1 | rs2
-  - +   001010  rd <- rs1 + rs2
-  - -   001011  rd <- rs1 - rs2
+  - sum 001010  rd <- rs1 + rs2
+  - res 001011  rd <- rs1 - rs2
   - rs1 001100  rd <- rs1
   - <   001101  rd <- rs1, if rs1 < rs2 flagX = 1
   - =   001111  rd <- rs1 , if rs1 == rs2 flagZ = 1
