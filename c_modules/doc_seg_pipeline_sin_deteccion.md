@@ -1,5 +1,7 @@
 # Segmented pipeline, without detections or detentions
 
+  - compile: g++ main.c -o main
+
 ## Operations
 
 #### Aritmetic-logic Operations
