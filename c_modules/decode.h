@@ -71,7 +71,8 @@ void etapa_decode_run(){
     F_D_F.carga = 1;
     //salto
     if(salto == 1 && rs1_d == rs2_d){
-      set_dir_salto(pc4 + inmExt_d);
+      //set_dir_salto(pc4 + inmExt_d);
+      set_dir_salto(inmExt_d);//saltar al inmediato extendido
       set_pcSrc(1);
     }
   }else{

@@ -7,7 +7,7 @@
 //cargar a partir de 0x0 las instrucciones contenidas en rom
 static void load_rom(){
   /*
-  mov r2, 2
+  mov r2, r2 + 2
   mov r5, 5
   nop
   nop
@@ -15,7 +15,7 @@ static void load_rom(){
   nop
   add r6,r2,r5
   */
-  set_contenido_mem(0x00, 0x04020002);
+  set_contenido_mem(0x00, 0x04420002);
   set_contenido_mem(0x04, 0x04050005);
   set_contenido_mem(0x08, 0x0);
   set_contenido_mem(0x0c, 0x0);
@@ -23,6 +23,7 @@ static void load_rom(){
   set_contenido_mem(0x14, 0x0);
   set_contenido_mem(0x18, 0x28453000);
   set_contenido_mem(0x1c, 0x0);
+  set_contenido_mem(0x20, 0x10000000);
   set_pc(0x0);
 }
 

@@ -55,6 +55,7 @@ void etapa_fetch_run(){
     pc = multiplex_2(pc+4, dir_salto, pcSrc);
     F_D_F.instruccion = instruccion;
     F_D_F.pc4 = pc;
+    pcSrc = 0;//resetea el pcSrc
   }
   if(pc > PCFIN) pc = PCINI;
   etapa_decode_run();

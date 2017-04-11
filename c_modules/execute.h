@@ -59,7 +59,7 @@ void etapa_execute_run(){
 
 
   E_M_E.dato = rs2;
-  printf("%#x, \n", rs2);
+  
   E_M_E.p_op = D_E_E.p_op;
 
   etapa_mem_run();
