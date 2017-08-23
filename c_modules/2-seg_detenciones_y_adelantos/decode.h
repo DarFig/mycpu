@@ -32,7 +32,30 @@ struct operacion p_op;
 
 static int salto = 0;//la unidad de control lo pone a 1
 
-//todo: unidad de riesgos
+
+int esProductor(uint8_t opCode){
+  //devuelve 1 si el opcode pertenece a una productora
+  switch (opCode) {
+    case 0x01 : return 1;//Mov;
+    case 0x02 : return 1;//Ld;
+    case 0x08 : return 1;//And;
+    case 0x09 : return 1;//Or;
+    case 0x0A : return 1;//Sum;
+    case 0x0B : return 1;//Res;
+    case 0x0C : return 1;//Rs1;
+    case 0x0E : return 1;//Men;
+    case 0x0F : return 1;//Equ;
+    default : return 0;
+  }
+}
+
+int parar(){
+  if((d_rs1 == E_M_E.d_rd && esProductor(opCode))||( d_rs1 == M_W_M.d_rd)) return 1;
+  else if((d_rs2 == E_M_E.d_rd && esProductor(opCode))||( d_rs2 == M_W_M.d_rd)) return 1;
+  else return 0
+}
+
+
 void etapa_decode_run(){
   uint32_t inst;
   //leer de banco F_D
@@ -57,7 +80,10 @@ void etapa_decode_run(){
   p_op = run_control(opCode);
   salto = p_op.salto;
   //detectar riesgos
-  D_E_D.carga = 1;
+  //D_E_D.carga = 1;
+  if(para()) D_E_D.carga = 1;
+  else D_E_D.carga = 0;
+
 
   //escritura en D_E
   if(D_E_D.carga == 1){

@@ -7,7 +7,7 @@
 static uint32_t banco [MAX_REG];
 
 /*
-Las dreciones tienen que esta dentro del dominio de max_reg
+Las direciones tienen que estar dentro del dominio de max_reg
 */
 void w_port(uint8_t num_reg, uint32_t dato, int regWr){
   //printf("regWr  %#x\n", regWr );
