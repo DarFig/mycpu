@@ -50,9 +50,11 @@ int esProductor(uint8_t opCode){
 }
 
 int parar(){
-  if((d_rs1 == E_M_E.d_rd && esProductor(opCode))||( d_rs1 == M_W_M.d_rd)) return 1;
-  else if((d_rs2 == E_M_E.d_rd && esProductor(opCode))||( d_rs2 == M_W_M.d_rd)) return 1;
-  else return 0
+  ///printf("Reg1 %#x, Reg2 %#x, %#x, ope %#x, opd %#x : \n", d_rs1, d_rs2,multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst), D_E_E.p_op.opCode, opCode);
+  if((d_rs1 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst) && esProductor(D_E_E.p_op.opCode))||(d_rs1 == E_M_M.d_rd && esProductor(E_M_M.p_op.opCode))||( d_rs1 == M_W_W.d_rd && esProductor(M_W_W.p_op.opCode))) return 1;
+  else if((d_rs2 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst)&& esProductor(D_E_E.p_op.opCode))||(d_rs2 == E_M_M.d_rd && esProductor(E_M_M.p_op.opCode))||( d_rs2 == M_W_W.d_rd && esProductor(M_W_W.p_op.opCode))) return 1;
+  else return 0;
+
 }
 
 
@@ -81,12 +83,14 @@ void etapa_decode_run(){
   salto = p_op.salto;
   //detectar riesgos
   //D_E_D.carga = 1;
-  if(para()) D_E_D.carga = 1;
-  else D_E_D.carga = 0;
+  if(parar()) D_E_D.carga = 0;
+  else D_E_D.carga = 1;
+  ///printf("parar: %i , carga %i\n", parar(),D_E_D.carga);
 
 
   //escritura en D_E
   if(D_E_D.carga == 1){
+
     D_E_D.rs1 = rs1_d;
     D_E_D.rs2 = rs2_d;
     D_E_D.d_rd = d_rd_d;
@@ -103,7 +107,9 @@ void etapa_decode_run(){
     }
   }else{
     //quitar carga al FETCH_H
+    //F_D_F = F_D_D;
     F_D_F.carga = 0;
+
     //pasar nop a D_E
     D_E_D.rs1 = 0;
     D_E_D.rs2 = 0;

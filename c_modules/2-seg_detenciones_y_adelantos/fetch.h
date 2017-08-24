@@ -49,9 +49,10 @@ uint32_t get_instruccion_fech(){
 
 void etapa_fetch_run(){
   //
-  instruccion = get_contenido_mem(pc);
+
   //cargar en banco
   if(F_D_F.carga == 1){
+    instruccion = get_contenido_mem(pc);
     pc = multiplex_2(pc+4, dir_salto, pcSrc);
     F_D_F.instruccion = instruccion;
     F_D_F.pc4 = pc;

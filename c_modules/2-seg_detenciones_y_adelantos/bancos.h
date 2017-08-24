@@ -38,8 +38,8 @@ struct banco_M_W{
 
 
 //dobles banco, al final del ciclo copiar de banco de entrada a salida
-struct banco_F_D F_D_F = {1, 0x0000};
-struct banco_F_D F_D_D = {1, 0x0000};
+struct banco_F_D F_D_F = {1, 0x0000, 0x0};
+struct banco_F_D F_D_D = {1, 0x0000, 0x0};
 
 struct banco_D_E D_E_D = {1,0x00,0x00,0x00,0x00,0x00000000,Nop};
 struct banco_D_E D_E_E = {1,0x00,0x00,0x00,0x00,0x00000000,Nop};
