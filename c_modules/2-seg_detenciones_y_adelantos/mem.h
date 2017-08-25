@@ -12,7 +12,7 @@ void etapa_mem_run(){
     //leer E_M
     aluOut = E_M_M.aluOut;
     d_rd = E_M_M.d_rd;
-
+    
     //r_w_memoria
     if(E_M_M.p_op.memW == 1){
       set_contenido_mem(aluOut, E_M_M.dato);
@@ -25,7 +25,7 @@ void etapa_mem_run(){
     M_W_M.d_rd = d_rd;
     M_W_M.p_op = E_M_M.p_op;
     M_W_M.mem_out = mem_out;
-    
+
 }
 
 #endif
