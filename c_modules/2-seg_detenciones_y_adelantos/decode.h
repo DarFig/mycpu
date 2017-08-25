@@ -35,12 +35,15 @@ static int salto = 0;//la unidad de control lo pone a 1
 
 
 
-int parar(){
+int parar(){//una ves anyadido los adelantos solo nos dan problema los loads a distancia 1
   ///printf("Reg1 %#x, Reg2 %#x, %#x, ope %#x, opd %#x : \n", d_rs1, d_rs2,multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst), D_E_E.p_op.opCode, opCode);
   /*if((d_rs1 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst) && esProductor(D_E_E.p_op.opCode))||(d_rs1 == E_M_M.d_rd && esProductor(E_M_M.p_op.opCode))||( d_rs1 == M_W_W.d_rd && esProductor(M_W_W.p_op.opCode))) return 1;
   else if((d_rs2 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst)&& esProductor(D_E_E.p_op.opCode))||(d_rs2 == E_M_M.d_rd && esProductor(E_M_M.p_op.opCode))||( d_rs2 == M_W_W.d_rd && esProductor(M_W_W.p_op.opCode))) return 1;
   else return 0;*/
-  return 0;
+  //detenciones en los loads a distancia 1
+  if(leeMemoria(D_E_E.p_op.opCode) && d_rs1 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst)) return 1;
+  else if(leeMemoria(D_E_E.p_op.opCode) && d_rs2 == multiplex_2(D_E_E.d_rs2, d_rd_e, D_E_E.p_op.reDst)) return 1;
+  else return 0;
 
 }
 

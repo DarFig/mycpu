@@ -53,7 +53,7 @@ void etapa_execute_run(){
   rB = multiplex_2( rs2, inmExt ,D_E_E.p_op.aluSrc);
 
   //adelantos
-  printf("Reg1 %i, Reg2 %i, dirMWW %#x, daMWW %#x, aluMWW %#x, Eop %#x, Wop %#x : \n", D_E_E.d_rs1, D_E_E.d_rs2, E_M_M.d_rd, E_M_M.dato, E_M_M.aluOut, D_E_E.p_op.opCode,M_W_W.p_op.opCode);
+  
   if(esProductor(E_M_M.p_op.opCode)&& !leeMemoria(E_M_M.p_op.opCode) && D_E_E.d_rs1 == E_M_M.d_rd)
       rA = E_M_M.aluOut;
   else if(leeMemoria(M_W_W.p_op.opCode) && D_E_E.d_rs1 == M_W_W.d_rd)
@@ -64,7 +64,7 @@ void etapa_execute_run(){
     if(escrMemoria(D_E_E.p_op.opCode)){//si es un store
 
       rs2 = E_M_M.aluOut;
-      
+
     }else{
       rB = E_M_M.aluOut;
     }
