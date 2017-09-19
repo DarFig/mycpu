@@ -1,4 +1,4 @@
-# Segmented pipeline, without detections or detentions
+# Segmented pipeline, only detentions
 
   - compile: g++ main.c -o main
 
