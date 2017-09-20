@@ -96,7 +96,7 @@ void interpretar(const char *file_org, const char *file_dest){
     //también se podrían usar streams
     //me lo miraré luego xD(seguro lo olvido)
     cadena = "";
-    while(caracter != " "){
+    while(caracter != " " && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
       //leer hasta el primer espacio
       cadena += caracter;
     }
@@ -107,9 +107,9 @@ void interpretar(const char *file_org, const char *file_dest){
       exit -1;
     }
     cadena = "";
-    while(caracter != "\n"){
+    while(caracter != "\n" && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
       //leer hasta fin de linea
-      while(caracter != " "){
+      while(caracter != " " && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
         cadena += caracter;
       }
       if(num_reg == 1) registro_uno = cadena;
