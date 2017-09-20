@@ -6,11 +6,16 @@
 * Brinda la funcionalidad para que dado un fichero origen con código
 * ensamblador referente al emulador se pueda pasar su contenido a los opcodes
 * definidos y los escribe en otro fichero destino.
+*
+* gcc versión 6.3.1
 */
 
 #include <stdio.h>
 //#include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
+#include "itoa.h"
+
 
 int flag_noRd = 0; //flag que marca operaciones tipo lw o store o mov que no tienen rd
 int flag_noInmd = 0; //también el beq, que tampoco tiene inmd
@@ -57,11 +62,10 @@ char* obtener_opcode_instruccion(char * operacion){
 * dado la secuencia de caracteres correspondientes a un registro o un
 * inmd(constante de hasta 16bits) devuelve el "operation code" asociado a el
 */
-char* obtener_opcode_registro(char * operacion){
-  //ToDo: pasar los registros a su correspondiente opcode
-  //ej: si rs1 es r6 equivale a 00110
-  //si no es ninguno de los registros es un num de 16bits el inmd
-  //toca pasarlo a binario y devolverlo
+char* obtener_opcode_registro(char * registro){
+  if(registro[0] == "r")
+    int reg_aux = atoi(&registro[1]);//obtenemos el número de registro
+  return itoa(reg_aux, 2);
 }
 
 /*
