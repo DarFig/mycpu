@@ -1,210 +1,107 @@
-#ifndef INTERPRETE_H
-#define INTERPRETE_H
+#pragma once
 /*
 * Autor:  Dariel
-* v2017.09.19
+* v2017.09.21
 * Brinda la funcionalidad para que dado un fichero origen con código
 * ensamblador referente al emulador se pueda pasar su contenido a los opcodes
 * definidos y los escribe en otro fichero destino.
 *
 * gcc versión 6.3.1
 */
-
-#include <stdio.h>
-//#include <stdint.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <stdlib.h>
 #include "itoa.h"
 
+using namespace std;
 
-int flag_ld = 0; //flag que marca operaciones tipo lw
-int flag_st = 0; //flag que marca operaciones tipo st
-int flag_beq = 0; //también el beq
-int flag_nop = 0;
 
-/*
-* dado la secuencia de caracteres correspondientes a una operación
-* devuelve el "operation code" asociado a ella
-*/
-static char* obtener_opcode_instruccion(char * operacion){
-  //utilizamos un opcode de 6bits por lo que dos son siempre 0
-  //pero por el número de operaciones implementadas cuatro serán 0
-  if(strcmp(operacion, "nop") == 0){
-     flag_nop = 1;
-     return "000000";
-   }
-  if(strcmp(operacion, "mov") == 0){
-    flag_ld = 1;
-    return "000001";
-  }
-  if(strcmp(operacion, "lw") == 0){
-    flag_ld = 1;
-    return "000010";
-  }
-  if(strcmp(operacion, "sw") == 0){
-    flag_st = 1;
-    return "000011";
-  }
-  if(strcmp(operacion, "beq") == 0){
-    flag_beq = 1;
-    return "000100";
-  }
-  if(strcmp(operacion, "and") == 0) return "001000";
-  if(strcmp(operacion, "or") == 0) return "001001";
-  if(strcmp(operacion, "sum") == 0) return "001010";
-  if(strcmp(operacion, "res") == 0) return "001011";
-  if(strcmp(operacion, "rs1") == 0) return "001100";
-  if(strcmp(operacion, "<") == 0) return "001101";
-  if(strcmp(operacion, "=") == 0) return "001111";
-  return "-1";
-}
+class Interprete {
+private:
+      ifstream forigen;
+      ofstream fdestino;
+      int flag_ld = 0; //flag que marca operaciones tipo lw
+      int flag_st = 0; //flag que marca operaciones tipo st
+      int flag_beq = 0; //también el beq
+      int flag_nop = 0;
 
-/*
-* dado la secuencia de caracteres correspondientes a un registro o un
-* inmd(constante de hasta 16bits) devuelve el "operation code" asociado a el
-*/
-static char* obtener_opcode_registro(char * registro){
-  int reg_aux = 0;
-  char* aux = "";
-  aux += registro[0];
-  if(strcmp(aux, "r"))
-    reg_aux = atoi(&registro[1]);//obtenemos el número de registro
-  return itoa(reg_aux, 2);
-}
-
-/*
-* Dado un fichero origen [file_org] con código ensamblador referente al emulador
-* "traduce" su contenido a los opcodes definidos y los escribe en otro fichero
-* destino [file_dest]
-*/
-void interpretar(const char *file_org, const char *file_dest){
-  FILE *forigen;
-  FILE *fdestino;
-  char caracter;
-  char *cadena = "";
-  char *c = "";
-  char *operacion = "";
-  char *registro_uno = "";
-  char *registro_dos = "";
-  char *registro_tres = "";
-  int num_reg = 1;
-
-  if((forigen = fopen(file_org, "r")) == NULL){
-    //apertura fichero origen
-    perror(file_org);
-    exit(-1);
-  }
-  if((fdestino = fopen(file_dest, "w")) == NULL){
-    //apertura o creación fichero destino
-    perror(file_dest);
-    exit(-1);
-  }
-
-  while(fread(&caracter, sizeof caracter, 1, forigen)>0){
-    //hasta fin de fichero
-    //también se podrían usar streams
-    //me lo miraré luego xD(seguro lo olvido)
-    cadena = "";
-    c = "";
-    c += caracter;
-    while((strcmp(c, " ") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
-      //leer hasta el primer espacio
-      cadena += caracter;
-      c = "";
-      c += caracter;
-    }
-
-    if(strcmp((operacion = obtener_opcode_instruccion(cadena)) , "-1")){
-      fclose (forigen);
-      fclose (fdestino);
-      exit -1;
-    }
-    cadena = "";
-
-    while((strcmp(c, "\n") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
-      //leer hasta fin de linea
-      while((strcmp(c, " ") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
-        cadena += caracter;
-        c = "";
-        c += caracter;
+      /*
+      * dado la secuencia de caracteres correspondientes a una operación
+      * devuelve el "operation code" asociado a ella
+      */
+      string obtener_opcode_instruccion(string operacion){
+        //utilizamos un opcode de 6bits por lo que dos son siempre 0
+        //pero por el número de operaciones implementadas cuatro serán 0
+        if(operacion.compare( "nop") == 0){
+           flag_nop = 1;
+           return "000000";
+         }
+        if(operacion.compare( "mov") == 0){
+          flag_ld = 1;
+          return "000001";
+        }
+        if(operacion.compare("lw") == 0){
+          flag_ld = 1;
+          return "000010";
+        }
+        if(operacion.compare( "sw") == 0){
+          flag_st = 1;
+          return "000011";
+        }
+        if(operacion.compare( "beq") == 0){
+          flag_beq = 1;
+          return "000100";
+        }
+        if(operacion.compare("and") == 0) return "001000";
+        if(operacion.compare("or") == 0) return "001001";
+        if(operacion.compare("sum") == 0) return "001010";
+        if(operacion.compare("res") == 0) return "001011";
+        if(operacion.compare( "rs1") == 0) return "001100";
+        if(operacion.compare("<") == 0) return "001101";
+        if(operacion.compare("=") == 0) return "001111";
+        return "-1";
       }
-      if(num_reg == 1) registro_uno = cadena;
-      else if(num_reg == 2) registro_dos = cadena;
-      else registro_tres = cadena;
-      num_reg++;
-      cadena = "";
-      c = "";
-      c += caracter;
-    }
-
-    registro_uno = obtener_opcode_registro(registro_uno);
-    registro_dos = obtener_opcode_registro(registro_dos);
-    if(num_reg == 4) registro_tres = obtener_opcode_registro(registro_tres);
-    num_reg = 1;
 
 
-    //Reconstruir cadena utilizando los flags como info del tipo de operacion
-    // y el orden de los registros
-    if(flag_ld == 1){
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
-      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
-      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = strcat("0",registro_tres);
-      strcat(cadena, operacion);
-      strcat(cadena, registro_dos);
-      strcat(cadena, registro_uno);
-      strcat(cadena, registro_tres);
-                        //      rs1         +     rs2      +     inmd
-      //cadena = operacion + registro_dos + registro_uno + registro_tres;
-    }else if(flag_st == 1){
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
-      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = strcat("0",registro_tres);
-      for(int i = 0; strlen(registro_dos) < 12; i++)registro_dos = strcat("0",registro_dos);
-                          //      rs1         +     rs2      +     inmd
-      strcat(cadena, operacion);
-      strcat(cadena, registro_uno);
-      strcat(cadena, registro_tres);
-      strcat(cadena, registro_dos);
-      //cadena = operacion + registro_uno + registro_tres + registro_dos;
-    }else if(flag_beq == 1){
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
-      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
-      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = strcat("0",registro_tres);
-      strcat(cadena, operacion);
-      strcat(cadena, registro_uno);
-      strcat(cadena, registro_dos);
-      strcat(cadena, registro_tres);
-      //cadena = operacion + registro_uno + registro_dos + registro_tres;
-    }else if(flag_nop){
-      cadena = "00000000000000000000000000000000";
-    }else{
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
-      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = strcat("0",registro_tres);
-      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
-                        //      rs1         +     rs2      +     rd
-      strcat(cadena, operacion);
-      strcat(cadena, registro_dos);
-      strcat(cadena, registro_tres);
-      strcat(cadena, registro_uno);
-      //cadena = operacion + registro_dos + registro_tres + registro_uno;
-    }
-    //escribir en el fichero destino
-    fwrite(&cadena, sizeof caracter, 1, fdestino);
+      /*
+      * dado la secuencia de caracteres correspondientes a un registro o un
+      * inmd(constante de hasta 16bits) devuelve el "operation code" asociado a el
+      */
+      string obtener_opcode_registro(string registro){
+        int num;
+        //char buffer[32];
 
-    //reset flags
-    flag_ld = 0;
-    flag_st = 0;
-    flag_beq = 0;
-    flag_nop = 0;
+        if( registro.substr(0, 1).compare( "r"))
+          registro.erase(registro.begin());
+        num = atoi(registro.c_str());
+        string a = itoa(num, 2);
+        return a;
+      }
+public:
+
+  Interprete(const char *file_org, const char *file_dest){
+    this->forigen.open(file_org);
+    this->fdestino.open(file_dest);
+  }
+  ~Interprete(){
+
   }
 
 
-  fclose (forigen);
-  fclose (fdestino);
-}
+  /*
+  * Dado un fichero origen con código ensamblador referente al emulador
+  * "traduce" su contenido a los opcodes definidos y los escribe en otro fichero
+  * destino 
+  */
+  void interpretar(){
+    string linea;
+    while(getline(this->forigen,linea)){
+      fdestino << linea;
 
+    }
 
-
-
-
-
-#endif
+    this->forigen.close();
+    this->fdestino.close();
+  }
+};

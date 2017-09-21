@@ -1,0 +1,1 @@
+mov r2 r2 2mov r5 r0 5sw r5 r0 192add r6 r2 r5beq 0 0 0

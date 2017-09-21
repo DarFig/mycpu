@@ -6,17 +6,25 @@
 * definidos y los escribe en otro fichero destino.
 *
 * gcc versión 6.3.1
+* Compilar con: g++ -std=c++11 interpretar.cpp -o interpretar
 */
 
-#include <stdio.h>
+
 #include "interprete.h"
+#include <iostream>
+
+using namespace std;
+
 
 int main(int argc, char *argv[]){
   if(argc != 3){
-    fprintf(stderr, "Forma de uso: %s origen destino\n", argv[0]);
-    exit(-1);
+    cout<< "Forma de uso: " << argv[0] << " origen destino"<<endl;;
+    return -1;
   }
-  interpretar(argv[1], argv[2]);
 
-  exit(0);
+  Interprete* miInt;
+  miInt = new Interprete(argv[1], argv[2]);
+  miInt->interpretar();
+  delete(miInt);
+  return 0;
 }
