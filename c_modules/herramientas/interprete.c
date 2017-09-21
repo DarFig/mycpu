@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include "interprete.h"
 
-main(int argc, char *argv[]){
+int main(int argc, char *argv[]){
   if(argc != 3){
-    fprintf(stderr, "Forma de uso: %s origen destino\n", arv[0]);
+    fprintf(stderr, "Forma de uso: %s origen destino\n", argv[0]);
     exit(-1);
   }
   interpretar(argv[1], argv[2]);

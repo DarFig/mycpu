@@ -34,7 +34,7 @@ static char* obtener_opcode_instruccion(char * operacion){
      return "000000";
    }
   if(strcmp(operacion, "mov") == 0){
-    flag_noRd = 1;
+    flag_ld = 1;
     return "000001";
   }
   if(strcmp(operacion, "lw") == 0){
@@ -64,8 +64,11 @@ static char* obtener_opcode_instruccion(char * operacion){
 * inmd(constante de hasta 16bits) devuelve el "operation code" asociado a el
 */
 static char* obtener_opcode_registro(char * registro){
-  if(registro[0] == "r")
-    int reg_aux = atoi(&registro[1]);//obtenemos el número de registro
+  int reg_aux = 0;
+  char* aux = "";
+  aux += registro[0];
+  if(strcmp(aux, "r"))
+    reg_aux = atoi(&registro[1]);//obtenemos el número de registro
   return itoa(reg_aux, 2);
 }
 
@@ -79,6 +82,7 @@ void interpretar(const char *file_org, const char *file_dest){
   FILE *fdestino;
   char caracter;
   char *cadena = "";
+  char *c = "";
   char *operacion = "";
   char *registro_uno = "";
   char *registro_dos = "";
@@ -101,9 +105,13 @@ void interpretar(const char *file_org, const char *file_dest){
     //también se podrían usar streams
     //me lo miraré luego xD(seguro lo olvido)
     cadena = "";
-    while(caracter != " " && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
+    c = "";
+    c += caracter;
+    while((strcmp(c, " ") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
       //leer hasta el primer espacio
       cadena += caracter;
+      c = "";
+      c += caracter;
     }
 
     if(strcmp((operacion = obtener_opcode_instruccion(cadena)) , "-1")){
@@ -113,16 +121,20 @@ void interpretar(const char *file_org, const char *file_dest){
     }
     cadena = "";
 
-    while(caracter != "\n" && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
+    while((strcmp(c, "\n") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
       //leer hasta fin de linea
-      while(caracter != " " && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
+      while((strcmp(c, " ") != 1) && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
         cadena += caracter;
+        c = "";
+        c += caracter;
       }
       if(num_reg == 1) registro_uno = cadena;
       else if(num_reg == 2) registro_dos = cadena;
       else registro_tres = cadena;
       num_reg++;
       cadena = "";
+      c = "";
+      c += caracter;
     }
 
     registro_uno = obtener_opcode_registro(registro_uno);
@@ -134,27 +146,46 @@ void interpretar(const char *file_org, const char *file_dest){
     //Reconstruir cadena utilizando los flags como info del tipo de operacion
     // y el orden de los registros
     if(flag_ld == 1){
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
-      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = "0"+registro_dos;
-      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = "0"+registro_tres;
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
+      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
+      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = strcat("0",registro_tres);
+      strcat(cadena, operacion);
+      strcat(cadena, registro_dos);
+      strcat(cadena, registro_uno);
+      strcat(cadena, registro_tres);
                         //      rs1         +     rs2      +     inmd
-      cadena = operacion + registro_dos + registro_uno + registro_tres;
+      //cadena = operacion + registro_dos + registro_uno + registro_tres;
     }else if(flag_st == 1){
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
-      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = "0"+registro_tres;
-      for(int i = 0; strlen(registro_dos) < 12; i++)registro_dos = "0"+registro_dos;
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
+      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = strcat("0",registro_tres);
+      for(int i = 0; strlen(registro_dos) < 12; i++)registro_dos = strcat("0",registro_dos);
                           //      rs1         +     rs2      +     inmd
-      cadena = operacion + registro_uno + registro_tres + registro_dos;
+      strcat(cadena, operacion);
+      strcat(cadena, registro_uno);
+      strcat(cadena, registro_tres);
+      strcat(cadena, registro_dos);
+      //cadena = operacion + registro_uno + registro_tres + registro_dos;
     }else if(flag_beq == 1){
-      cadena = operacion + registro_uno + registro_dos + registro_tres;
-    else if(flag_nop){
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
+      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
+      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = strcat("0",registro_tres);
+      strcat(cadena, operacion);
+      strcat(cadena, registro_uno);
+      strcat(cadena, registro_dos);
+      strcat(cadena, registro_tres);
+      //cadena = operacion + registro_uno + registro_dos + registro_tres;
+    }else if(flag_nop){
       cadena = "00000000000000000000000000000000";
     }else{
-      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
-      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = "0"+registro_tres;
-      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = "0"+registro_dos;
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = strcat("0",registro_uno);
+      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = strcat("0",registro_tres);
+      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = strcat("0",registro_dos);
                         //      rs1         +     rs2      +     rd
-      cadena = operacion + registro_dos + registro_tres + registro_uno;
+      strcat(cadena, operacion);
+      strcat(cadena, registro_dos);
+      strcat(cadena, registro_tres);
+      strcat(cadena, registro_uno);
+      //cadena = operacion + registro_dos + registro_tres + registro_uno;
     }
     //escribir en el fichero destino
     fwrite(&cadena, sizeof caracter, 1, fdestino);
