@@ -17,15 +17,16 @@
 #include "itoa.h"
 
 
-int flag_noRd = 0; //flag que marca operaciones tipo lw o store o mov que no tienen rd
-int flag_noInmd = 0; //también el beq, que tampoco tiene inmd
+int flag_ld = 0; //flag que marca operaciones tipo lw
+int flag_st = 0; //flag que marca operaciones tipo st
+int flag_beq = 0; //también el beq
 int flag_nop = 0;
 
 /*
 * dado la secuencia de caracteres correspondientes a una operación
 * devuelve el "operation code" asociado a ella
 */
-char* obtener_opcode_instruccion(char * operacion){
+static char* obtener_opcode_instruccion(char * operacion){
   //utilizamos un opcode de 6bits por lo que dos son siempre 0
   //pero por el número de operaciones implementadas cuatro serán 0
   if(strcmp(operacion, "nop") == 0){
@@ -37,15 +38,15 @@ char* obtener_opcode_instruccion(char * operacion){
     return "000001";
   }
   if(strcmp(operacion, "lw") == 0){
-    flag_noRd = 1;
+    flag_ld = 1;
     return "000010";
   }
   if(strcmp(operacion, "sw") == 0){
-    flag_noRd = 1;
+    flag_st = 1;
     return "000011";
   }
   if(strcmp(operacion, "beq") == 0){
-    flag_noInmd = 1;
+    flag_beq = 1;
     return "000100";
   }
   if(strcmp(operacion, "and") == 0) return "001000";
@@ -62,7 +63,7 @@ char* obtener_opcode_instruccion(char * operacion){
 * dado la secuencia de caracteres correspondientes a un registro o un
 * inmd(constante de hasta 16bits) devuelve el "operation code" asociado a el
 */
-char* obtener_opcode_registro(char * registro){
+static char* obtener_opcode_registro(char * registro){
   if(registro[0] == "r")
     int reg_aux = atoi(&registro[1]);//obtenemos el número de registro
   return itoa(reg_aux, 2);
@@ -111,6 +112,7 @@ void interpretar(const char *file_org, const char *file_dest){
       exit -1;
     }
     cadena = "";
+
     while(caracter != "\n" && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
       //leer hasta fin de linea
       while(caracter != " " && (fread(&caracter, sizeof caracter, 1, forigen)>0)){
@@ -127,14 +129,40 @@ void interpretar(const char *file_org, const char *file_dest){
     registro_dos = obtener_opcode_registro(registro_dos);
     if(num_reg == 4) registro_tres = obtener_opcode_registro(registro_tres);
     num_reg = 1;
-    //ToDo:reconstruir cadena utilizando los flags como info del tipo de operacion
-    // y el orden de los registros
 
+
+    //Reconstruir cadena utilizando los flags como info del tipo de operacion
+    // y el orden de los registros
+    if(flag_ld == 1){
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
+      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = "0"+registro_dos;
+      for(int i = 0; strlen(registro_tres) < 12; i++)registro_tres = "0"+registro_tres;
+                        //      rs1         +     rs2      +     inmd
+      cadena = operacion + registro_dos + registro_uno + registro_tres;
+    }else if(flag_st == 1){
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
+      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = "0"+registro_tres;
+      for(int i = 0; strlen(registro_dos) < 12; i++)registro_dos = "0"+registro_dos;
+                          //      rs1         +     rs2      +     inmd
+      cadena = operacion + registro_uno + registro_tres + registro_dos;
+    }else if(flag_beq == 1){
+      cadena = operacion + registro_uno + registro_dos + registro_tres;
+    else if(flag_nop){
+      cadena = "00000000000000000000000000000000";
+    }else{
+      for(int i = 0; strlen(registro_uno) < 6; i++)registro_uno = "0"+registro_uno;
+      for(int i = 0; strlen(registro_tres) < 6; i++)registro_tres = "0"+registro_tres;
+      for(int i = 0; strlen(registro_dos) < 6; i++)registro_dos = "0"+registro_dos;
+                        //      rs1         +     rs2      +     rd
+      cadena = operacion + registro_dos + registro_tres + registro_uno;
+    }
+    //escribir en el fichero destino
     fwrite(&cadena, sizeof caracter, 1, fdestino);
 
     //reset flags
-    flag_noRd = 0;
-    flag_noInmd = 0;
+    flag_ld = 0;
+    flag_st = 0;
+    flag_beq = 0;
     flag_nop = 0;
   }
 
