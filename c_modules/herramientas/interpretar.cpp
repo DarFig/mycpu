@@ -11,20 +11,21 @@
 
 
 #include "interprete.h"
-#include <iostream>
+//#include <iostream>
 
 using namespace std;
 
 
 int main(int argc, char *argv[]){
   if(argc != 3){
-    cout<< "Forma de uso: " << argv[0] << " origen destino"<<endl;;
+    cout<< "Forma de uso: " << argv[0] << " origen destino"<<endl;
     return -1;
   }
-
+  cout<<"......";
   Interprete* miInt;
   miInt = new Interprete(argv[1], argv[2]);
   miInt->interpretar();
   delete(miInt);
+  cout<<"OK!"<<endl;
   return 0;
 }
