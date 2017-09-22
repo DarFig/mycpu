@@ -14,7 +14,7 @@
 #include <string>
 #include <stdlib.h>
 #include "itoa.h"
-
+#include <stdint.h>
 using namespace std;
 
 
@@ -146,7 +146,7 @@ public:
       }
 
 
-      fdestino << linea<< endl;
+      fdestino << linea << endl;
       linea ="";
       //reset flags
       flag_ld = 0;
