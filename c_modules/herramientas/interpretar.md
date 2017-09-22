@@ -7,6 +7,7 @@
   a los opcodes definidos y los escribe en otro fichero destino.
   - gcc versión 6.3.1
   - Compilar con: g++ -std=c++11 interpretar.cpp -o interpretar
+  - Uso: ./interpretar [fichero_origen] [fichero_destino]
 
 ## Operaciones
 
