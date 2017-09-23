@@ -1,10 +1,10 @@
 {
   "name": "mycpu",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron main.js" 
+    "start": "electron main.js"
   },
   "author": "Dariel",
   "license": "GPLv3"

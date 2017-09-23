@@ -5,5 +5,6 @@
 * [x] agregar detección de riesgos
 * [x] agregar adelantos
 * [x] gestionar detenciones
-* [ ] crear códificador simple para agilizar la creación de código ensamblador
+* [x] crear códificador simple para agilizar la creación de código ensamblador
 * [ ] agregar códigos de prueba
+* [ ] reestructurar (o refactorizar) los ficheros cabecera

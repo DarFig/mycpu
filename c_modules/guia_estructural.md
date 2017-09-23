@@ -32,4 +32,4 @@ método por ejemplo:
  ```
 #### Información del segmentado
 
-![Segmented pipeline](https://github.com/DarFig/mycpu/blob/master/c_modules/2-seg_detenciones_y_adelantos/doc_seg_pipeline.md)
+![Segmented pipeline](https://github.com/DarFig/mycpu/blob/master/c_modules/doc_seg_pipeline.md)
