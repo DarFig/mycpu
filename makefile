@@ -18,3 +18,9 @@ tools: $(BINT)
 clean:
 	rm -f $(OBJ)
 	rm -f $(OBJT)
+
+help:
+	@echo ---- make       -- lanza las ordenes build y tools
+	@echo ---- make build -- construye ./c_modules/bin/main
+	@echo ---- make tools -- construye las herramientas, por ahora ./herramientas/interpretar
+	@echo ---- make run   -- lanza ./c_modules/ bin/main
