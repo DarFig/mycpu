@@ -9,18 +9,11 @@ all: build tools
 run:
 	$(BIN)
 
-build: $(OBJ)
-	g++ $(SRC) -o $(BIN)
+build: $(BIN)
+	g++ -std=c++11 $(SRC) -o $(BIN)
 
-./c_modules/bin/%.o: ./c_modules/src/%.c
-	g++ -c $< -O3 -o $@
-
-
-tools: $(OBJT)
+tools: $(BINT)
 	g++ -std=c++11 -O3 $(SRCT) -o ./herramientas/interpretar
-
-./herramientas/%.o: ./herramientas/%.c
-	g++ -c $< -O3 -o $@
 
 clean:
 	rm -f $(OBJ)

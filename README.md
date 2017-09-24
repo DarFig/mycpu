@@ -1,5 +1,14 @@
 # MyCPU-Emu
 
+### Compilar
+
+#### Utilizando makefile
+  Reglas
+  - make        --> lanza las ordenes build y tools
+  - make build  --> construye ./c_modules/bin/main
+  - make tools  --> construye las herramientas, por ahora ./herramientas/interpretar
+  - make run    --> lanza ./c_modules/ bin/main
+
 ### Requirements
 
 - c/c++ compiler
